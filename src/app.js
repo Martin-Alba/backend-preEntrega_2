@@ -2,7 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import handlebars from "express-handlebars";
 import productModel from "./models/product.model.js";
-import productsRouter from './routers/products.router.js'
+import productsRouter from "./routers/products.router.js";
 
 const app = express();
 
@@ -10,9 +10,7 @@ app.engine("handlebars", handlebars.engine());
 app.set("views", "./src/views");
 app.set("view engine", "handlebars");
 
-app.use("/", productsRouter);
-
-
+app.use("/api/products", productsRouter);
 
 // crear productos en DB
 /* const main = async () => {
@@ -160,5 +158,5 @@ app.use("/", productsRouter);
 };
 main() */
 
-mongoose.connect('mongodb://localhost:27017', { dbName: 'Pre-Entrega'})
-app.listen(8080, () => console.log('Server Up!'))
+mongoose.connect("mongodb://localhost:27017", { dbName: "Pre-Entrega" });
+app.listen(8080, () => console.log("Server Up!"));

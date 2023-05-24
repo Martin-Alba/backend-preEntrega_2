@@ -1,10 +1,21 @@
 <div>
-  {{#each products}}
-    <div>
-      <h2>{{this.title}}</h2>
-      <p>{{this.description}}</p>
-      <h3>Precio: $ {{this.price}}</h3>
-    </div>
-    <hr>
-  {{/each}}
+  <div>
+    {{#each docs}}
+      <div>
+        <h2>{{this.title}}</h2>
+        <p>{{this.description}}</p>
+        <h3>Precio: $ {{this.price}}</h3>
+      </div>
+      <hr />
+    {{/each}}
+  </div>
+  <div>
+    {{#if hasPrevPage}}
+      <a href="{{prevLink}}">Prev</a>
+    {{/if}}
+    |
+    {{#if hasNextPage}}
+      <a href="{{nextLink}}">Next</a>
+    {{/if}}
+  </div>
 </div>
