@@ -13,6 +13,7 @@ router.get("/", async (req, res) => {
   res.render("products", products);
 });
 
+// /api/products/1/1
 router.get("/:page/:limit", async (req, res) => {
   let page = parseInt(req.params.page);
   if (!page) page = 1;
@@ -36,8 +37,21 @@ router.get("/:page/:limit", async (req, res) => {
     ? `/api/products/${page + 1}/${limit}`
     : "";
 
-  console.log(products);
   res.render("products", products);
+});
+
+// primera letra mayuscula
+router.get("/:category", async (req, res) => {
+  let category = req.params.category;
+  const products = await productModel.paginate(
+    { category: category },
+    {
+      lean: true,
+    }
+  );
+  if (category) {
+    res.render("products", products);
+  }
 });
 
 export default router;
