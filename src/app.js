@@ -1,18 +1,26 @@
 import express from "express";
 import mongoose from "mongoose";
-import handlebars from "express-handlebars";
+import exphbs from "express-handlebars";
+import bodyParser from "body-parser";
+import path from "path";
+import { fileURLToPath } from "url";
 import productModel from "./models/product.model.js";
 import productsRouter from "./routers/products.router.js";
-import cartsRouter from "./routers/carts.router.js"
+import cartsRouter from "./routers/carts.router.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const app = express();
 
-app.engine("handlebars", handlebars.engine());
-app.set("views", "./src/views");
+const hbs = exphbs.create();
+app.engine("handlebars", hbs.engine);
+app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "handlebars");
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/api/products", productsRouter);
-app.use("/api/carts", cartsRouter)
-
+app.use("/api/carts", cartsRouter);
 
 // crear productos en DB
 /* const main = async () => {
@@ -23,7 +31,7 @@ app.use("/api/carts", cartsRouter)
 
   const products = await productModel.insertMany([
     {
-      //id: 1,
+      id: 1,
       title: "Torta",
       description:
         "Torta rellena con dulce de leche y crema, bañana en chocolate.",
@@ -37,7 +45,7 @@ app.use("/api/carts", cartsRouter)
       ],
     },
     {
-      //id: 2,
+      id: 2,
       title: "Bombas",
       description:
         "1 kg. de Bombas rellenas de dulce de leche bañadas en chocolate blanco/negro.",
@@ -51,7 +59,7 @@ app.use("/api/carts", cartsRouter)
       ],
     },
     {
-      //id: 3,
+      id: 3,
       title: "Tarta",
       description: "Tarta de frutilla y crema.",
       price: 2999,
@@ -64,7 +72,7 @@ app.use("/api/carts", cartsRouter)
       ],
     },
     {
-      //id: 4,
+      id: 4,
       title: "Tarteletas Dulces",
       description:
         "Tarteletas dulces de crema moka, bariloche, crema, y dulce de leche. Se vende por kg.",
@@ -78,7 +86,7 @@ app.use("/api/carts", cartsRouter)
       ],
     },
     {
-      //id: 5,
+      id: 5,
       title: "Tarteletas Saladas",
       description:
         "Tarteletas saladas de atun, palmito y roquefort. Se vende por kg.",
@@ -92,7 +100,7 @@ app.use("/api/carts", cartsRouter)
       ],
     },
     {
-      //id: 6,
+      id: 6,
       title: "Arrollado Dulce",
       description:
         "Arrollado Dulce relleno de dulce de leche y crema, bañado en crema moka, bariloche, dulce de leche o crema.",
@@ -106,7 +114,7 @@ app.use("/api/carts", cartsRouter)
       ],
     },
     {
-      //id: 7,
+      id: 7,
       title: "Arrollado Salado",
       description: "Arrollado Salado de jamon y queso, Roquefort o Atun.",
       price: 3249,
@@ -117,7 +125,7 @@ app.use("/api/carts", cartsRouter)
       thumbnail: ["https://mediacenter.bonduelle.com/cdn/202001/ESGP016_.jpg"],
     },
     {
-      //id: 8,
+      id: 8,
       title: "Tallarines",
       description: "Tallarines de huevo",
       price: 149,
@@ -130,7 +138,7 @@ app.use("/api/carts", cartsRouter)
       ],
     },
     {
-      //id: 9,
+      id: 9,
       title: "Ñoquis",
       description: "Ñoquis de queso o papa",
       price: 299,
@@ -143,7 +151,7 @@ app.use("/api/carts", cartsRouter)
       ],
     },
     {
-      //id: 10,
+      id: 10,
       title: "Sorrentinos",
       description:
         "Sorrentinos rellenos de pollo, carne y verdura o jamon y queso.",
@@ -158,7 +166,8 @@ app.use("/api/carts", cartsRouter)
     },
   ]);
 };
-main() */
+main()
+ */
 
 mongoose.connect("mongodb://localhost:27017", { dbName: "Pre-Entrega" });
 app.listen(8080, () => console.log("Server Up!"));
