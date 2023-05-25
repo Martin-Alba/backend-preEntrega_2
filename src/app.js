@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import handlebars from "express-handlebars";
 import productModel from "./models/product.model.js";
 import productsRouter from "./routers/products.router.js";
-
+import cartsRouter from "./routers/carts.router.js"
 const app = express();
 
 app.engine("handlebars", handlebars.engine());
@@ -11,6 +11,8 @@ app.set("views", "./src/views");
 app.set("view engine", "handlebars");
 
 app.use("/api/products", productsRouter);
+app.use("/api/carts", cartsRouter)
+
 
 // crear productos en DB
 /* const main = async () => {
