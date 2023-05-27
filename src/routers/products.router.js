@@ -9,7 +9,8 @@ router.get("/", async (req, res) => {
   const options = {
     limit: parseInt(req.query.limit) || 10,
     page: parseInt(req.query.page) || 1,
-    lean: true
+    lean: true,
+    sort: req.query.sort === 'desc' ? { price: -1 } : { price: 1 }
   };
 
   try {
@@ -20,6 +21,7 @@ router.get("/", async (req, res) => {
     res.status(500).json({ err: "Ocurrió un error al obtener los productos" });
   }
 });
+
 
 router.get('/create', async (req, res) => {
   res.render('create')
