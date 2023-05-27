@@ -1,5 +1,12 @@
+<form action="/api/products" method="GET">
+  <input type="text" name="query" value="{{query}}" placeholder="Buscar..." />
+  <input type="hidden" name="limit" value="{{limit}}" />
+  <input type="hidden" name="sort" value="{{sort}}" />
+  <button type="submit">Buscar</button>
+</form>
+
 <div>
-  {{#each docs}}
+  {{#each products.docs}}
     <div>
       <h2>{{this.title}}</h2>
       <p>{{this.description}}</p>
@@ -10,11 +17,14 @@
   {{/each}}
 </div>
 
-{{#if hasPrevPage}}
-  <a href="/api/products?page={{prevPage}}&limit={{limit}}&sort={{sort}}">Página anterior</a>
+{{#if products.hasPrevPage}}
+  <a
+    href="/api/products?page={{products.prevPage}}&limit={{limit}}&sort={{sort}}&query={{query}}"
+  >Página anterior</a>
 {{/if}}
 
-{{#if hasNextPage}}
-  <a href="/api/products?page={{nextPage}}&limit={{limit}}&sort={{sort}}">Página siguiente</a>
+{{#if products.hasNextPage}}
+  <a
+    href="/api/products?page={{products.nextPage}}&limit={{limit}}&sort={{sort}}&query={{query}}"
+  >Página siguiente</a>
 {{/if}}
-
