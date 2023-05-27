@@ -22,14 +22,6 @@ const productManager = {
       thumbnail,
     } = productData;
 
-    const lastProduct = await productModel.findOne(
-      {},
-      {},
-      { sort: { id: -1 } }
-    );
-
-    const id = lastProduct ? lastProduct.id + 1 : 1;
-
     const codeExists = await productModel.exists({ code });
 
     if (codeExists) {
@@ -37,7 +29,6 @@ const productManager = {
     }
 
     const product = new productModel({
-      id,
       title,
       description,
       price,
