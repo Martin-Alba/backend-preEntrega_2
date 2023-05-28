@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import exphbs from "express-handlebars";
+import session from 'express-session';
 import bodyParser from "body-parser";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -12,6 +13,13 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+app.use(
+  session({
+    secret: 'Chris-P-Bacon',
+    resave: false,
+    saveUninitialized: false
+  })
+)
 
 const hbs = exphbs.create();
 app.engine("handlebars", hbs.engine);

@@ -3,6 +3,8 @@
   <input type="hidden" name="limit" value="{{limit}}" />
   <input type="hidden" name="sort" value="{{sort}}" />
   <button type="submit">Buscar</button>
+  <a href="/api/products">Quitar filtros</a>
+
 </form>
 
 <div>
@@ -12,10 +14,23 @@
       <p>{{this.description}}</p>
       <p>{{this.category}}</p>
       <h3>Precio: $ {{this.price}}</h3>
+
+      <!-- Botón para agregar producto al carrito -->
+      <form action="/api/carts/add-to-cart" method="POST">
+        <input type="hidden" name="productId" value="{{this._id}}" />
+        <button type="submit">Agregar al carrito</button>
+      </form>
+
+      <!-- Botón para eliminar producto del carrito -->
+      <form action="/api/carts/remove-from-cart" method="POST">
+        <input type="hidden" name="productId" value="{{this._id}}" />
+        <button type="submit">Eliminar del carrito</button>
+      </form>
     </div>
     <hr />
   {{/each}}
 </div>
+
 
 {{#if products.hasPrevPage}}
   <a
