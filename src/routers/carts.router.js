@@ -3,6 +3,29 @@ import Cart from "../models/carts.model.js";
 
 const router = Router();
 
+router.delete("/:cid/products/:pid", async (req, res) => {
+  const { cid, pid } = req.params; // Capturar los parámetros :cid y :pid de la URL
+
+  try {
+    const cart = await Cart.findById(cid);
+
+    if (!cart) {
+      throw new Error("El carrito no existe");
+    }
+
+    // Filtrar el producto que se desea eliminar del carrito por su ObjectId
+    cart.products = cart.products.filter(
+      (item) => item.productId.toString() !== pid
+    );
+
+    await cart.save();
+    res.status(200).json({ message: "Producto eliminado del carrito exitosamente" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Ocurrió un error al eliminar el producto del carrito" });
+  }
+});
+
 router.post("/add-to-cart", async (req, res) => {
   const { productId } = req.body;
 
