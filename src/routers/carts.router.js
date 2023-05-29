@@ -1,40 +1,19 @@
 import { Router } from "express";
 import Cart from "../models/carts.model.js";
+import mongoose from "mongoose";
 
 const router = Router();
-
-router.delete("/:cid/products/:pid", async (req, res) => {
-  const { cid, pid } = req.params; // Capturar los parámetros :cid y :pid de la URL
-
-  try {
-    const cart = await Cart.findById(cid);
-
-    if (!cart) {
-      throw new Error("El carrito no existe");
-    }
-
-    // Filtrar el producto que se desea eliminar del carrito por su ObjectId
-    cart.products = cart.products.filter(
-      (item) => item.productId.toString() !== pid
-    );
-
-    await cart.save();
-    res.status(200).json({ message: "Producto eliminado del carrito exitosamente" });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Ocurrió un error al eliminar el producto del carrito" });
-  }
-});
+const { ObjectId } = mongoose.Types;
 
 router.post("/add-to-cart", async (req, res) => {
   const { productId } = req.body;
 
   try {
     // Obtener el carrito existente o crear uno nuevo si no existe
-    let cart = await Cart.findOne({ cid: "unique_cart_id" });
+    let cart = await Cart.findOne();
 
     if (!cart) {
-      cart = new Cart({ cid: "unique_cart_id" });
+      cart = new Cart({ cid: new ObjectId(), products: [] });
     }
 
     // Verificar si el producto ya está en el carrito
@@ -62,7 +41,7 @@ router.post("/remove-from-cart", async (req, res) => {
   const { productId } = req.body;
 
   try {
-    const cart = await Cart.findOne({ cid: "unique_cart_id" });
+    const cart = await Cart.findOne();
 
     if (!cart) {
       throw new Error("El carrito no existe");
