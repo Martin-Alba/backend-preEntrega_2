@@ -1,5 +1,6 @@
 import { Router } from "express";
 import cartModel from "../models/carts.model.js";
+import productModel from "../models/product.model.js";
 import mongoose from "mongoose";
 
 const router = Router();
@@ -9,7 +10,7 @@ const { ObjectId } = mongoose.Types;
 router.get("/", async (req, res) => {
   try {
     const carts = await cartModel.find().populate().lean().exec();
-    res.json({ carts });
+    res.render("carts", { carts });
   } catch (err) {
     console.error(err);
     res.status(500).json({ err: "Ocurrio un error al obtener los carritos" });
