@@ -9,11 +9,16 @@ const { ObjectId } = mongoose.Types;
 // Ver carts
 router.get("/", async (req, res) => {
   try {
-    const carts = await cartModel.find().populate().lean().exec();
+    const carts = await cartModel
+      .find()
+      .populate("products.productId")
+      .lean()
+      .exec();
+
     res.render("carts", { carts });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ err: "Ocurrio un error al obtener los carritos" });
+    res.status(500).json({ err: "Ocurrió un error al obtener los carritos" });
   }
 });
 

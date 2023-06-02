@@ -9,10 +9,13 @@
   <h2>Carrito {{_id}}</h2>
   <ul>
     {{#each products}}
-    <li>
-      Producto ID: {{this.productId}}
-      Cantidad: {{this.quantity}}
-    </li>
+    <div>
+      Producto ID: {{this.productId._id}} <br>
+      Título: {{this.productId.title}} <br>
+      Cantidad: {{this.quantity}} <br>
+    </div>
+    <hr>
+    
     {{/each}}
   </ul>
   {{/each}}
