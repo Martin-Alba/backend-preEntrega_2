@@ -91,4 +91,31 @@ router.post("/remove-from-cart", async (req, res) => {
   }
 });
 
+router.post("/update-quantity", async (req, res) => {
+  const { cartId, productId, quantity } = req.body;
+
+  try {
+    const cart = await cartModel.findById(cartId);
+
+    if (!cart) {
+      throw new Error("El carrito no existe");
+    }
+
+    const productIndex = cart.products.findIndex(
+      (item) => item.productId.toString() === productId
+    );
+
+    if (productIndex !== -1) {
+      // Actualizar la cantidad del producto en el carrito
+      cart.products[productIndex].quantity = quantity;
+      await cart.save();
+    }
+
+    res.redirect("/api/carts"); // Redirigir a la página de carritos después de la actualización
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Ocurrió un error al actualizar la cantidad del producto" });
+  }
+});
+
 export default router;
